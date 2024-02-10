@@ -1,0 +1,407 @@
+---
+title: '<font size = 7 color = "white">Analyzation of Credit Approval rates using logistic regression.</font>'
+subtitle: '<img src="Pimg/WCUL.png" width=100 height=100>'
+author: '<font size = 5 color = "white"> Kyle Weber </font>'
+institute: '<font size = 6 color = "white">West Chester University of Pennsylvania</font><br> '
+date: ' <font color = "white" size =4> Prepared for<br> </font> <br> <font color = "gold" size = 6> STA490: Data Visualization </font> <br> <br> <font color = "white" size = 3> Slides available at: https://rpubs.com/KW986324 AND https://github.com/Kyle-Weber/STA490</font>'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer01.css
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("pander")) {
+   install.packages("pander")
+   library(pander)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("ggplot2")) {
+   install.packages("ggplot2")
+   library(ggplot2)
+}
+knitr::opts_chunk$set(
+                  fig.width=3, 
+                  fig.height=3, 
+                  fig.retina=12,
+                  out.width = "100%",
+                  cache = FALSE,
+                  echo = TRUE,
+                  message = FALSE, 
+                  warning = FALSE,
+                  hiline = TRUE
+                  )
+```
+
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+  style_duo_accent(primary_color = "#1F4257",
+          secondary_color = "#380F2A",
+          # fonts
+          header_font_google = google_font("Martel"),
+          text_font_google = google_font("Lato"),
+          code_font_google = google_font("Fira Mono"))
+  
+
+```
+
+
+```{r, include=FALSE}
+ if (!require("xaringanthemer")) {
+      install.packages("xaringanthemer")
+      library(xaringanthemer)
+     }
+```
+
+```{r, include=FALSE}
+library(mlbench)
+Credit.0 <- read.csv("https://raw.githubusercontent.com/Kyle-Weber/STA321/main/www/clean_dataset.csv", header = TRUE)
+Credit = Credit.0
+
+
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+knitr::opts_chunk$set(echo = TRUE)
+
+if (!require("DT")) {
+      install.packages("DT")
+      library(DT)
+     }
+
+if (!require("plotly")) {
+      install.packages("plotly")
+      library(plotly)
+     }
+
+
+
+library(psych)
+```
+
+```{r, include=FALSE}
+library(psych)
+num.var <- c("Age", "YearsEmployed", "Income", "Debt")
+
+num.dat <- Credit[, num.var]
+
+pairs.panels(num.dat, 
+             method = "pearson", # correlation method
+             hist.col = "#00AFBB",
+             density = TRUE,  # show density plots
+             ellipses = TRUE # show correlation ellipses
+)
+
+```
+
+```{r, include=FALSE}
+par(mfrow=c(1,2))
+hist(Credit$Debt, xlab="Debt", main = "")
+hist(Credit$Income, xlab = "Income", main = "")
+hist(Credit$YearsEmployed, xlab = "Worked", main = "")
+hist(Credit$Age, xlab = "Age", main = "")
+
+```
+
+```{r, include=FALSE}
+# Specify the breaks for each variable
+age.breaks <- c(0, 17.0, 21.0, 26.0, 35.0, 50.0, 100)
+income.breaks <- c(-1, 0.0, 5.0, 10.0, 300.0, 5000, Inf)
+debt.breaks <- c(-1, 0.0, 0.6, 1.2, 5.0, 10.0, 40, Inf)
+years.breaks <- c(-1, 0.0, 1.0, 3.0, 5.0, 10.0, 50, Inf)
+
+# Use cut() function to create new columns with group labels
+Credit$grp.Age <- cut(Credit$Age, breaks = age.breaks, labels = c("0-17", "17-21", "21-26", "26-35", "35-50", "50-100"))
+Credit$grp.Income <- cut(Credit$Income, breaks = income.breaks, labels = c("0", "0.1-5", "5-10", "10-300", "300-5000", "5000+"))
+Credit$grp.Debt <- cut(Credit$Debt, breaks = debt.breaks, labels = c("0", "0.1-0.6", "0.61-1.2", "1.21-5.0", "5.1-10.0", "10.1-40", "40+"))
+Credit$grp.YearsEmployed <- cut(Credit$YearsEmployed, breaks = years.breaks, labels = c("0", "0.1-1.0", "3.0-5.0", "5.0-10.0", "10.1-50.0", "50+", ""))
+
+```
+
+
+class: top, center
+# Table of Contents
+
+
+.left[
+1. Title Slide
+<br> 
+<br>
+2. Data Set Summary 
+<br>
+<br>
+3. Research Question 
+<br>
+<br>
+4. Exploratory Analysis 
+<br>
+<br>
+5. Full Logistic Regression Model
+<br>
+<br>
+6. Reduced Logistic Regression Model
+<br>
+<br>
+7. Final Logistic Regression Model
+<br>
+<br>
+8. Model Comparison 
+<br>
+<br>
+9. Odds Ratio Analysis 
+<br>
+<br>
+10. Conclusion 
+]
+---
+
+class: top, center
+# Research Question
+<br>
+
+.left[
+<font size="5"> - Can a multiple logistic regression model predict credit card approval based on applicant’s demographic and financial information? </font>
+]
+
+
+---
+class: top, center
+# Exploratory Analysis
+
+.left[
+- Pairwise Scatter Plots for Numerical Variables
+<br>
+    - There are issues regrading skewness and grouping
+<br>
+- grouping the histograms will help to fix this problem
+]
+
+```{r interactive-scatterplot-matrix, echo=FALSE, fig.width=8, fig.height=3}
+library(psych)
+num.var <- c("Age", "YearsEmployed", "Income", "Debt")
+
+num.dat <- Credit[, num.var]
+
+pairs.panels(num.dat, 
+             method = "pearson", # correlation method
+             hist.col = "#00AFBB",
+             density = TRUE,  # show density plots
+             ellipses = TRUE # show correlation ellipses
+)
+```
+
+
+
+---
+class: top, center
+# Full Logistic Regression Model
+
+.left[
+- Full Model
+<br>
+<br>
+- Helps to find variables that are not statistically significant
+]
+```{r interactive-logistic-regression-summary, echo=FALSE, fig.cap="Summary of inferential statistics of the full model", out.width="100%"}
+# Load necessary libraries
+library(knitr)
+library(kableExtra)
+library(DT)
+
+# Fit the logistic regression model
+full.model <- glm(Approved ~ grp.Debt + grp.Age + grp.Income + Gender + BankCustomer + Ethnicity + grp.YearsEmployed + PriorDefault + Employed + CreditScore + DriversLicense,
+                  family = binomial(link = "logit"),  
+                  data = Credit)  
+
+# Create a summary table
+summary_table <- as.data.frame(summary(full.model)$coef)
+
+# Round all values to 7 decimal places
+rounded_summary_table <- round(summary_table, digits = 7)
+
+# Make the table interactive
+datatable(rounded_summary_table, 
+          options = list(dom = 't', pageLength = 6))
+
+
+```
+
+
+
+
+---
+class: top, center
+# Reduced Logistic Regression Model
+.left[
+- Reduced Model
+<br>
+<br>
+- non-significant variables taken out manually
+]
+```{r interactive-reduced-model-summary, echo=FALSE, fig.cap="Summary of inferential statistics of the reduced model", out.width="100%"}
+# Load necessary libraries
+library(knitr)
+library(kableExtra)
+library(DT)
+
+# Fit the logistic regression model
+reduced.model <- glm(Approved ~ grp.Income + grp.Debt + CreditScore + Employed + BankCustomer, 
+                     family = binomial(link = "logit"),  # logit(p) = log(p/(1-p))!
+                     data = Credit) 
+
+# Create a summary table
+summary_table_reduced <- as.data.frame(summary(reduced.model)$coef)
+
+# Round all values to 7 decimal places
+rounded_summary_table_reduced <- round(summary_table_reduced, digits = 7)
+
+# Make the table interactive
+datatable(rounded_summary_table_reduced, 
+          options = list(dom = 't', pageLength = 6))
+
+```
+
+
+
+
+---
+class: top, center
+# Final Logistic Regression Model
+.left[
+- Final Model
+<br>
+- automatic variable selection
+<br>
+- most relevant variables kept in
+]
+```{r interactive-final-model-summary, echo=FALSE, fig.cap="Summary of inferential statistics of the final model", out.width="40%", fig.height=2}
+# Load necessary libraries
+library(knitr)
+library(kableExtra)
+library(DT)
+
+## automatic variable selection
+library(MASS)
+final.model.forward <- stepAIC(reduced.model, 
+                                scope = list(lower = formula(reduced.model), upper = formula(full.model)),
+                                direction = "forward",   # forward selection
+                                trace = 0   
+)
+
+# Create a summary table
+summary_table_final <- as.data.frame(summary(final.model.forward)$coef)
+
+# Round all values to 7 decimal places
+rounded_summary_table_final <- round(summary_table_final, digits = 7)
+
+# Make the table interactive
+datatable(rounded_summary_table_final, 
+          options = list(dom = 't', pageLength = 6))
+
+```
+
+
+---
+class: top, center
+# Goodness-of-fit Model Comparison
+.left[
+- Comparison of three logistic regression models. 
+<br>
+<br>
+- final model has a slightly better Deviance and AIC
+]
+<br>
+<br>
+```{r interactive-goodness-of-fit, echo=FALSE, fig.cap="Comparison of global goodness-of-fit statistics", out.width="50%", fig.height=4}
+# Load necessary libraries
+library(knitr)
+library(kableExtra)
+library(DT)
+
+# Define the global goodness-of-fit function
+global.measure <- function(s.logit) {
+  dev.resid <- s.logit$deviance
+  dev.0.resid <- s.logit$null.deviance
+  aic <- s.logit$aic
+  goodness <- cbind(Deviance.residual = dev.resid, Null.Deviance.Residual = dev.0.resid, AIC = aic)
+  goodness
+}
+
+# Calculate global goodness-of-fit measures
+goodness <- rbind(full.model = global.measure(full.model),
+                  reduced.model = global.measure(reduced.model),
+                  final.model = global.measure(final.model.forward))
+row.names(goodness) <- c("full.model", "reduced.model", "final.model")
+
+# Round all values to 7 decimal places
+rounded_goodness <- round(goodness, digits = 7)
+
+# Make the table interactive
+datatable(rounded_goodness, 
+          options = list(dom = 't', pageLength = 6))
+
+
+```
+
+
+
+
+---
+class: top, center
+# Odds Ratio  analysis
+.left[
+- performed for a more practical interpretation
+<br>
+- Income group "0.1-5" has odds ratio 0.1388257, indicating about 86% lower approval odds than the baseline
+<br>
+- Similar patterns observed for other variables
+<br>
+- Priordefault is the most influential variable
+]
+```{r interactive-odds-ratio, echo=FALSE, fig.cap="Summary Stats with Odds Ratios", out.width="50%", fig.height=4}
+# Load necessary libraries
+library(knitr)
+library(kableExtra)
+library(DT)
+
+# Calculate odds ratio
+model.coef.stats <- summary(final.model.forward)$coef
+odds.ratio <- exp(coef(final.model.forward))
+
+# Combine coefficients and odds ratio
+out.stats <- cbind(model.coef.stats, odds.ratio)                 
+
+# Round all values to 6 decimal places
+rounded_stats <- round(out.stats, digits = 6)
+
+# Make the table interactive
+datatable(rounded_stats, 
+          options = list(dom = 't', pageLength = 6))
+
+```
+
+
+
+---
+class: top, center
+#   Conclusion
+.left[
+- Multiple logistic regression serves as a powerful tool for extracting insights from intricate datasets.
+
+- Offers a deeper understanding of the dynamics influencing credit card approval decisions.
+
+- Revealed crucial information about the relationship between credit card approval and predictor variables.
+]
