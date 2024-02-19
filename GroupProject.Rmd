@@ -428,8 +428,12 @@ class: top, center
 <!-- Works great when the response variable is a binary categorical variable. So in situations where the answer you are looking for is either yes or no          -->
 ]
 
+---
+class: top, center
+# References:
 
 
-
-
+.left[
+Quinlan,J. R.. Credit Approval. UCI Machine Learning Repository. https://doi.org/10.24432/C5FS30.
+]
 
