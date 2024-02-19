@@ -270,7 +270,7 @@ summary_table_reduced <- as.data.frame(summary(reduced.model)$coef)
 # Round all values to 7 decimal places
 rounded_summary_table_reduced <- round(summary_table_reduced, digits = 4)
 
-datatable(rounded_summary_table, 
+datatable(rounded_summary_table_reduced, 
           options = list(dom = 't', 
                          pageLength = 30, 
                          scrollY = '200px',  # Adjust the height as needed
@@ -310,7 +310,7 @@ summary_table_final <- as.data.frame(summary(final.model.forward)$coef)
 # Round all values to 7 decimal places
 rounded_summary_table_final <- round(summary_table_final, digits = 4)
 
-datatable(rounded_summary_table, 
+datatable(rounded_summary_table_final, 
           options = list(dom = 't', 
                          pageLength = 30, 
                          scrollY = '200px',  # Adjust the height as needed
