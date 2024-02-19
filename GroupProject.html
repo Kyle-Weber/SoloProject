@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Analyzing Credit Approval Rates.</title>
+    <meta charset="utf-8" />
+    <meta name="author" content=" Kyle Weber and Josh Zhong " />
+    <script src="GroupProject_files/header-attrs/header-attrs.js"></script>
+    <script src="GroupProject_files/htmlwidgets/htmlwidgets.js"></script>
+    <link href="GroupProject_files/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="GroupProject_files/datatables-binding/datatables.js"></script>
+    <script src="GroupProject_files/jquery/jquery-3.6.0.min.js"></script>
+    <link href="GroupProject_files/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="GroupProject_files/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="GroupProject_files/dt-core/js/jquery.dataTables.min.js"></script>
+    <link href="GroupProject_files/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
+    <script src="GroupProject_files/crosstalk/js/crosstalk.min.js"></script>
+    <link rel="stylesheet" href="xaringan-themer01.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# <font size = 7 color = "white">Analyzing Credit Approval Rates.</font>
+]
+.subtitle[
+## <img src="Pimg/RedCard.png" width=175 height=100>
+]
+.author[
+### <font size = 5 color = "white"> Kyle Weber and Josh Zhong </font>
+]
+.institute[
+### <font size = 6 color = "white">West Chester University of Pennsylvania</font><br>
+]
+.date[
+### <font color = "white" size =4> Prepared for<br> </font> <font color = "gold" size = 6> STA490: Data Visualization </font> <br><br> <font color = "white" size = 3> Slides available at: <a href="https://rpubs.com/KW986324" class="uri">https://rpubs.com/KW986324</a> AND <a href="https://github.com/Kyle-Weber/STA490" class="uri">https://github.com/Kyle-Weber/STA490</a></font>
+]
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class: top, center
+# Table of Contents
+
+
+.left[
+
+&lt;li&gt; Data Pre-Processing &lt;/li&gt;
+&lt;br&gt;
+&lt;li&gt; Exploratory Analysis &lt;/li&gt;
+&lt;br&gt;
+&lt;li&gt; Multiple Logistic Regression Models &lt;/li&gt;
+&lt;br&gt;
+&lt;li&gt; Goodness-of-Fit &lt;/li&gt;
+&lt;br&gt;
+&lt;li&gt; Odds Ratio  &lt;/li&gt;
+&lt;br&gt;
+&lt;li&gt; Conclusion &lt;/li&gt;
+
+]
+---
+class: top, center
+#   Data Pre-Processing 
+&lt;br&gt;
+.left[
+&lt;li&gt;Data Transformation &lt;/li&gt;
+&lt;br&gt;
+&lt;li&gt; Missing Values &lt;/li&gt;
+&lt;br&gt;
+&lt;li&gt;Data Cleaning &lt;/li&gt;
+]
+
+
+---
+class: top, center
+# Exploratory Analysis
+
+.left[
+- Pairwise Scatter Plots for Numerical Variables
+]
+&lt;img src="GroupProject_files/figure-html/interactive-scatterplot-matrix-1.png" width="50%" height="50%" /&gt;
+
+
+
+
+---
+class: top, center
+# Exploratory Analysis
+
+.left[
+-  Age and CreditScore Histograms
+]
+&lt;img src="Pimg/ACHist.png" width="50%" height="50%" style="display: block; margin: auto;" /&gt;
+
+---
+class: top, center
+# Exploratory Analysis
+&lt;br&gt;
+
+.left[
+- Debt, Income, and YearsEmployed Histograms
+]
+
+&lt;img src="Pimg/DIWHist.png" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
+
+---
+class: top, center
+## Exploratory Analysis
+
+.left[
+- Grouping Variables
+- Four Variables Grouped
+- Example of Age Groupings:
+
+]
+
+Table: Groups of Age
+
+|Var1   | Freq|
+|:------|----:|
+|0-17   |   20|
+|17-21  |  101|
+|21-26  |  163|
+|26-35  |  197|
+|35-50  |  150|
+|50-100 |   59|
+
+
+
+---
+class: top, center
+# Logistic Regression Model
+
+.left[
+- Full Model
+]
+&lt;div class="figure"&gt;
+<div class="datatables html-widget html-fill-item" id="htmlwidget-f0ef284b9c54fe41c91b" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f0ef284b9c54fe41c91b">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","grp.Debt0.1-0.6","grp.Debt0.61-1.2","grp.Debt1.21-5.0","grp.Debt5.1-10.0","grp.Debt10.1-40","grp.Age17-21","grp.Age21-26","grp.Age26-35","grp.Age35-50","grp.Age50-100","grp.Income0.1-5","grp.Income5-10","grp.Income10-300","grp.Income300-5000","grp.Income5000+","Gender","BankCustomer","EthnicityBlack","EthnicityLatino","EthnicityOther","EthnicityWhite","grp.YearsEmployed0.1-1.0","grp.YearsEmployed3.0-5.0","grp.YearsEmployed5.0-10.0","grp.YearsEmployed10.1-50.0","grp.YearsEmployed50+","PriorDefault","Employed","CreditScore","DriversLicense"],[-1.3451,-2.0458,-3.3893,-3.1605,-2.5166,-3.0749,0.271,0.234,-0.3188,0.2374,-0.4444,-2.1328,0.7716,-0.1034,0.9837,3.0404,0.0081,0.896,0.8363,-0.8260999999999999,1.0941,0.4714,-0.8413,0.2886,0.3595,0.8506,-0.2292,3.5527,0.7352,0.1022,0.0177],[1.2591,0.8429,0.9201,0.8381,0.868,0.8552999999999999,0.9598,0.9414,0.951,0.9625,1.045,0.793,0.8143,0.3792,0.3783,1.0501,0.2975,0.329,0.5464,0.8677,0.8719,0.4707,0.6808999999999999,0.7262999999999999,0.7789,0.8222,0.8587,0.355,0.3736,0.0558,0.2804],[-1.0683,-2.4271,-3.6838,-3.7712,-2.8994,-3.595,0.2824,0.2485,-0.3353,0.2466,-0.4252,-2.6896,0.9476,-0.2727,2.6005,2.8954,0.0273,2.7234,1.5304,-0.9520999999999999,1.2548,1.0015,-1.2356,0.3974,0.4615,1.0345,-0.2669,10.0078,1.9676,1.8327,0.0631],[0.2854,0.0152,0.0002,0.0002,0.0037,0.0003,0.7776999999999999,0.8037,0.7374000000000001,0.8052,0.6707,0.0072,0.3433,0.7851,0.009299999999999999,0.0038,0.9782,0.0065,0.1259,0.341,0.2095,0.3166,0.2166,0.6911,0.6444,0.3009,0.7895,0,0.0491,0.0668,0.9497]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":30,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,30,50,100]}},"evals":[],"jsHooks":[]}</script>
+&lt;p class="caption"&gt;Summary of inferential statistics of the full model&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+---
+class: top, center
+# Logistic Regression Model
+.left[
+- Reduced Model
+&lt;br&gt;
+&lt;br&gt;
+- Variables Removed Manually
+]
+&lt;div class="figure"&gt;
+<div class="datatables html-widget html-fill-item" id="htmlwidget-6d79017da3bb477b8d09" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-6d79017da3bb477b8d09">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","grp.Debt0.1-0.6","grp.Debt0.61-1.2","grp.Debt1.21-5.0","grp.Debt5.1-10.0","grp.Debt10.1-40","grp.Age17-21","grp.Age21-26","grp.Age26-35","grp.Age35-50","grp.Age50-100","grp.Income0.1-5","grp.Income5-10","grp.Income10-300","grp.Income300-5000","grp.Income5000+","Gender","BankCustomer","EthnicityBlack","EthnicityLatino","EthnicityOther","EthnicityWhite","grp.YearsEmployed0.1-1.0","grp.YearsEmployed3.0-5.0","grp.YearsEmployed5.0-10.0","grp.YearsEmployed10.1-50.0","grp.YearsEmployed50+","PriorDefault","Employed","CreditScore","DriversLicense"],[-1.3451,-2.0458,-3.3893,-3.1605,-2.5166,-3.0749,0.271,0.234,-0.3188,0.2374,-0.4444,-2.1328,0.7716,-0.1034,0.9837,3.0404,0.0081,0.896,0.8363,-0.8260999999999999,1.0941,0.4714,-0.8413,0.2886,0.3595,0.8506,-0.2292,3.5527,0.7352,0.1022,0.0177],[1.2591,0.8429,0.9201,0.8381,0.868,0.8552999999999999,0.9598,0.9414,0.951,0.9625,1.045,0.793,0.8143,0.3792,0.3783,1.0501,0.2975,0.329,0.5464,0.8677,0.8719,0.4707,0.6808999999999999,0.7262999999999999,0.7789,0.8222,0.8587,0.355,0.3736,0.0558,0.2804],[-1.0683,-2.4271,-3.6838,-3.7712,-2.8994,-3.595,0.2824,0.2485,-0.3353,0.2466,-0.4252,-2.6896,0.9476,-0.2727,2.6005,2.8954,0.0273,2.7234,1.5304,-0.9520999999999999,1.2548,1.0015,-1.2356,0.3974,0.4615,1.0345,-0.2669,10.0078,1.9676,1.8327,0.0631],[0.2854,0.0152,0.0002,0.0002,0.0037,0.0003,0.7776999999999999,0.8037,0.7374000000000001,0.8052,0.6707,0.0072,0.3433,0.7851,0.009299999999999999,0.0038,0.9782,0.0065,0.1259,0.341,0.2095,0.3166,0.2166,0.6911,0.6444,0.3009,0.7895,0,0.0491,0.0668,0.9497]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":30,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,30,50,100]}},"evals":[],"jsHooks":[]}</script>
+&lt;p class="caption"&gt;Summary of inferential statistics of the reduced model&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+
+---
+class: top, center
+# Logistic Regression Model
+.left[
+- Final Model
+&lt;br&gt;
+- Automatic variable selection
+]
+&lt;div class="figure"&gt;
+<div class="datatables html-widget html-fill-item" id="htmlwidget-68fc9aa5346b183864f6" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-68fc9aa5346b183864f6">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","grp.Debt0.1-0.6","grp.Debt0.61-1.2","grp.Debt1.21-5.0","grp.Debt5.1-10.0","grp.Debt10.1-40","grp.Age17-21","grp.Age21-26","grp.Age26-35","grp.Age35-50","grp.Age50-100","grp.Income0.1-5","grp.Income5-10","grp.Income10-300","grp.Income300-5000","grp.Income5000+","Gender","BankCustomer","EthnicityBlack","EthnicityLatino","EthnicityOther","EthnicityWhite","grp.YearsEmployed0.1-1.0","grp.YearsEmployed3.0-5.0","grp.YearsEmployed5.0-10.0","grp.YearsEmployed10.1-50.0","grp.YearsEmployed50+","PriorDefault","Employed","CreditScore","DriversLicense"],[-1.3451,-2.0458,-3.3893,-3.1605,-2.5166,-3.0749,0.271,0.234,-0.3188,0.2374,-0.4444,-2.1328,0.7716,-0.1034,0.9837,3.0404,0.0081,0.896,0.8363,-0.8260999999999999,1.0941,0.4714,-0.8413,0.2886,0.3595,0.8506,-0.2292,3.5527,0.7352,0.1022,0.0177],[1.2591,0.8429,0.9201,0.8381,0.868,0.8552999999999999,0.9598,0.9414,0.951,0.9625,1.045,0.793,0.8143,0.3792,0.3783,1.0501,0.2975,0.329,0.5464,0.8677,0.8719,0.4707,0.6808999999999999,0.7262999999999999,0.7789,0.8222,0.8587,0.355,0.3736,0.0558,0.2804],[-1.0683,-2.4271,-3.6838,-3.7712,-2.8994,-3.595,0.2824,0.2485,-0.3353,0.2466,-0.4252,-2.6896,0.9476,-0.2727,2.6005,2.8954,0.0273,2.7234,1.5304,-0.9520999999999999,1.2548,1.0015,-1.2356,0.3974,0.4615,1.0345,-0.2669,10.0078,1.9676,1.8327,0.0631],[0.2854,0.0152,0.0002,0.0002,0.0037,0.0003,0.7776999999999999,0.8037,0.7374000000000001,0.8052,0.6707,0.0072,0.3433,0.7851,0.009299999999999999,0.0038,0.9782,0.0065,0.1259,0.341,0.2095,0.3166,0.2166,0.6911,0.6444,0.3009,0.7895,0,0.0491,0.0668,0.9497]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":30,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,30,50,100]}},"evals":[],"jsHooks":[]}</script>
+&lt;p class="caption"&gt;Summary of inferential statistics of the final model&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+class: top, center
+# Goodness-of-fit Model Comparison
+.left[
+- Comparison of three logistic regression models
+&lt;br&gt;
+&lt;br&gt;
+- Final model has a slightly better Deviance and AIC
+]
+&lt;br&gt;
+&lt;br&gt;
+&lt;div class="figure"&gt;
+<div class="datatables html-widget html-fill-item" id="htmlwidget-e9fe0539461b6b70796f" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e9fe0539461b6b70796f">{"x":{"filter":"none","vertical":false,"data":[["full.model","reduced.model","final.model"],[397.5970024,431.5302544,401.8565363],[948.1550859,948.1550859,948.1550859],[459.5970024,461.5302544,449.8565363]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Deviance.residual<\/th>\n      <th>Null.Deviance.Residual<\/th>\n      <th>AIC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":6,"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Deviance.residual","targets":1},{"name":"Null.Deviance.Residual","targets":2},{"name":"AIC","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+&lt;p class="caption"&gt;Comparison of global goodness-of-fit statistics&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+
+---
+class: top, center
+# Odds Ratio  Analysis
+.left[
+- Practical interpretation
+&lt;br&gt;
+- Influential Predictors
+&lt;br&gt;
+]
+&lt;div class="figure"&gt;
+<div class="datatables html-widget html-fill-item" id="htmlwidget-c93b45244ea541087357" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c93b45244ea541087357">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","grp.Income0.1-5","grp.Income5-10","grp.Income10-300","grp.Income300-5000","grp.Income5000+","grp.Debt0.1-0.6","grp.Debt0.61-1.2","grp.Debt1.21-5.0","grp.Debt5.1-10.0","grp.Debt10.1-40","CreditScore","Employed","BankCustomer","PriorDefault","grp.YearsEmployed0.1-1.0","grp.YearsEmployed3.0-5.0","grp.YearsEmployed5.0-10.0","grp.YearsEmployed10.1-50.0","grp.YearsEmployed50+","EthnicityBlack","EthnicityLatino","EthnicityOther","EthnicityWhite"],[-1.3172,-1.9875,0.8072,-0.1113,0.9936,2.9842,-2.1229,-3.4517,-3.2521,-2.5255,-3.0767,0.0973,0.7095,0.8509,3.5192,-0.7289,0.3838,0.3732,0.7433,-0.2615,0.9229000000000001,-0.8317,1.2276,0.5613],[0.8514,0.7764,0.8024,0.3773,0.3732,1.0523,0.826,0.8933,0.8091,0.8461,0.8401,0.0554,0.3725,0.3223,0.3452,0.679,0.7231,0.7764,0.8207,0.8468,0.5337,0.8527,0.8707,0.4642],[-1.5472,-2.5598,1.006,-0.2951,2.6625,2.8357,-2.5701,-3.8641,-4.0196,-2.9849,-3.6623,1.7567,1.9048,2.6401,10.195,-1.0734,0.5308,0.4807,0.9056,-0.3088,1.7292,-0.9752999999999999,1.4099,1.2093],[0.1218,0.0105,0.3144,0.7679,0.0078,0.0046,0.0102,0.0001,0.0001,0.0028,0.0002,0.079,0.0568,0.0083,0,0.2831,0.5955,0.6308,0.3651,0.7575,0.0838,0.3294,0.1586,0.2266],[0.2679,0.137,2.2417,0.8946,2.7008,19.7698,0.1197,0.0317,0.0387,0.08,0.0461,1.1021,2.0331,2.3418,33.7576,0.4825,1.4679,1.4523,2.1028,0.7699,2.5166,0.4353,3.4131,1.753]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n      <th>odds.ratio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":30,"scrollY":"200px","scrollX":"50px","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4},{"name":"odds.ratio","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,30,50,100]}},"evals":[],"jsHooks":[]}</script>
+&lt;p class="caption"&gt;Summary Stats with Odds Ratios&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+---
+class: top, center
+#   Conclusion
+.left[
+- Summary
+&lt;br&gt;
+&lt;br&gt;
+&lt;!-- Pairwise to regrouping the variables, regression models, final model, odds ratio,           --&gt;
+- Real-World Applicability 
+&lt;br&gt;
+&lt;br&gt;
+&lt;!-- This is useful in understanding which variables might impact your chances of succeeding in this case for credit card approval. It also lets you know what you might have to improve on, like reducing your debt or getting a job, making your chances of being approved higher.           --&gt;
+- Why a Regression Model?
+&lt;br&gt;
+&lt;br&gt;
+&lt;!-- Works great when the response variable is a binary categorical variable. So in situations where the answer you are looking for is either yes or no          --&gt;
+]
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
