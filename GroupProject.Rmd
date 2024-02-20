@@ -223,7 +223,7 @@ library(kableExtra)
 library(DT)
 
 # Fit the logistic regression model
-full.model <- glm(Approved ~ grp.Debt + grp.Age + grp.Income + Gender + BankCustomer + Ethnicity + grp.YearsEmployed + PriorDefault + Employed + CreditScore + DriversLicense,
+full.model <- glm(Approved ~ grp.Debt + grp.Age + grp.Income + Gender + BankCustomer + Ethnicity + grp.YearsEmployed + PriorDefault + Employed + CreditScore + DriversLicense + Citizen + Married,
                   family = binomial(link = "logit"),  
                   data = Credit)  
 
@@ -235,7 +235,7 @@ rounded_summary_table <- round(summary_table, digits = 4)
 
 datatable(rounded_summary_table, 
           options = list(dom = 't', 
-                         pageLength = 30, 
+                         pageLength = 40, 
                          scrollY = '200px',  # Adjust the height as needed
                          scrollCollapse = TRUE))
 
@@ -272,7 +272,7 @@ rounded_summary_table_reduced <- round(summary_table_reduced, digits = 4)
 
 datatable(rounded_summary_table_reduced, 
           options = list(dom = 't', 
-                         pageLength = 30, 
+                         pageLength = 40, 
                          scrollY = '200px',  # Adjust the height as needed
                          scrollCollapse = TRUE))
 
@@ -312,7 +312,7 @@ rounded_summary_table_final <- round(summary_table_final, digits = 4)
 
 datatable(rounded_summary_table_final, 
           options = list(dom = 't', 
-                         pageLength = 30, 
+                         pageLength = 40, 
                          scrollY = '200px',  # Adjust the height as needed
                          scrollCollapse = TRUE))
 
@@ -402,7 +402,7 @@ rounded_stats <- round(out.stats, digits = 4)
 
 datatable(rounded_stats, 
           options = list(dom = 't', 
-                         pageLength = 30, 
+                         pageLength = 40, 
                          scrollY = '200px',
                          scrollX = '50px'))
 
