@@ -223,7 +223,7 @@ library(kableExtra)
 library(DT)
 
 # Fit the logistic regression model
-full.model <- glm(Approved ~ grp.Debt + grp.Age + grp.Income + Gender + BankCustomer + Ethnicity + grp.YearsEmployed + PriorDefault + Employed + CreditScore + DriversLicense + Citizen + Married,
+full.model <- glm(Approved ~ grp.Debt + grp.Age + grp.Income + Gender + BankCustomer + Ethnicity + grp.YearsEmployed + PriorDefault + Employed + CreditScore + DriversLicense + Citizen,
                   family = binomial(link = "logit"),  
                   data = Credit)  
 
