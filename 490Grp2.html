@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Comparing Potential Sampling Plans.</title>
+    <meta charset="utf-8" />
+    <meta name="author" content=" Kyle Weber and Ian Vanwright " />
+    <script src="490Grp2_files/header-attrs/header-attrs.js"></script>
+    <script src="490Grp2_files/htmlwidgets/htmlwidgets.js"></script>
+    <link href="490Grp2_files/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="490Grp2_files/datatables-binding/datatables.js"></script>
+    <script src="490Grp2_files/jquery/jquery-3.6.0.min.js"></script>
+    <link href="490Grp2_files/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="490Grp2_files/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="490Grp2_files/dt-core/js/jquery.dataTables.min.js"></script>
+    <link href="490Grp2_files/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
+    <script src="490Grp2_files/crosstalk/js/crosstalk.min.js"></script>
+    <link rel="stylesheet" href="xaringan-themer01.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# <font size = 7 color = "white">Comparing Potential Sampling Plans.</font>
+]
+.author[
+### <font size = 5 color = "white"> Kyle Weber and Ian Vanwright </font>
+]
+.institute[
+### <font size = 6 color = "white">West Chester University of Pennsylvania</font><br>
+]
+.date[
+### <font color = "white" size =4> Prepared for<br> </font> <font color = "gold" size = 6> STA490: Data Visualization </font> <br><br> <font color = "white" size = 3> Slides available at: <a href="https://rpubs.com/KW986324" class="uri">https://rpubs.com/KW986324</a> AND <a href="https://github.com/Kyle-Weber/STA490" class="uri">https://github.com/Kyle-Weber/STA490</a></font>
+]
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class: top, center
+##    Table of Contents: 
+
+.left[
+
+- Data Cleaning
+
+- Combining Categories
+
+- Default Rate
+
+- Analyzing Four Sampling Plans
+
+- Comparing Default Rates
+
+- Default Rate Visualization
+
+- Conclusion
+]
+
+
+
+
+
+
+---
+
+
+class: top, center
+##    Data Cleaning: 
+
+
+.left[
+
+
+- Removed All Missing Values 
+
+- Changed Currency Values to Numerical
+
+- Remaining Observations is 897154
+
+
+]
+
+
+
+
+
+
+---
+
+class: top, center
+##    Combining Categories: 
+
+.left[
+
+- Variable "State" Combined into 5 Regions
+
+- Represent Geographical Region
+
+- Frequency Table of Regions
+
+- Lowest is SouthWest
+
+]
+
+
+
+
+
+
+
+|Region | Frequency|
+|:------|---------:|
+|MW     |    202183|
+|NE     |    201217|
+|SE     |    140699|
+|SW     |     90148|
+|W      |    262907|
+
+
+---
+class: top, center
+
+##    Calculating Default Rates:
+
+.left[
+
+- Original Rates for Data Set
+
+- Provides a Comparison to the Sampling Plans
+
+-  Southeast has the highest rate
+]
+
+&lt;!--If need time can talk about why they are important--&gt;
+
+
+|State | Default Rate|
+|:-----|------------:|
+|MW    |    0.1586137|
+|NE    |    0.1621533|
+|SE    |    0.2144152|
+|SW    |    0.1935484|
+|W     |    0.1720875|
+
+
+---
+
+
+
+class: top, center
+
+##    Simple Random Sampling Process:
+
+.left[
+
+- Random Sample of 4000
+
+&lt;!-- why 4000 less than 5% of original data set --&gt;
+
+- Taken from Cleaned Data Set
+
+- Frequency  and Default Rate Table
+
+]
+
+
+
+|Size      | Var.count|
+|:---------|---------:|
+|Size      |      4000|
+|Var.count |        28|
+
+
+
+|Region | Sample_Default_Rate|
+|:------|-------------------:|
+|NE     |           0.1762673|
+|W      |           0.1772689|
+|SW     |           0.1824480|
+|MW     |           0.1440953|
+|SE     |           0.2345059|
+
+---
+
+
+
+class: top, center
+##    Systematic Sample:
+
+.left[
+
+- Jump size created on 4000 observations
+
+- Selects observations from fixed intervals
+
+- Representative of entire population
+
+- Rounding Error
+
+]
+
+
+
+| Size| Var.count|
+|----:|---------:|
+| 4006|        28|
+
+
+
+|Region | Sample_Default_Rate|
+|:------|-------------------:|
+|SE     |           0.2125604|
+|NE     |           0.1658986|
+|MW     |           0.1564129|
+|SW     |           0.2078240|
+|W      |           0.1862489|
+
+
+---
+
+class: top, center
+##    Stratified Sampling: 
+
+.left[
+
+
+- Strata Size for Regions
+
+- 4000 Observations
+
+- Default Rates
+
+
+]
+
+
+|  MW|  NE|  SE|  SW|    W|
+|---:|---:|---:|---:|----:|
+| 901| 897| 627| 402| 1172|
+
+
+
+
+|Region | Sample_Default_Rate|
+|:------|-------------------:|
+|MW     |           0.1453940|
+|NE     |           0.1471572|
+|SE     |           0.2232855|
+|SW     |           0.1865672|
+|W      |           0.1843003|
+
+
+---
+
+class: top, center
+## Cluster Sampling:
+
+.left[
+
+- ZipCode used to Define Clusters
+
+- 140 Clusters Taken
+
+
+
+]
+
+
+
+
+
+
+
+|Size      | Var.count|
+|:---------|---------:|
+|Size      |      3945|
+|Var.count |        28|
+
+
+
+|Region | Default Rate|
+|:------|------------:|
+|MW     |    0.1797753|
+|NE     |    0.1305461|
+|SE     |    0.1876248|
+|SW     |    0.2219321|
+|W      |    0.1611612|
+
+
+
+
+
+---
+
+class: top, center
+##   Default Rate Comparison:
+
+.left[
+- Comparison of Default Rates Across Regions
+
+- Sample Default Rate vs True Default Rate
+
+- Systematic or Stratified
+]
+
+&lt;div class="figure"&gt;
+<div class="datatables html-widget html-fill-item" id="htmlwidget-33e187ed9ef983ac1615" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-33e187ed9ef983ac1615">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],["Simple Random","Simple Random","Simple Random","Simple Random","Simple Random","Systematic","Systematic","Systematic","Systematic","Systematic","Clustering","Clustering","Clustering","Clustering","Clustering","Stratified","Stratified","Stratified","Stratified","Stratified"],["NE","W","SW","MW","SE","SE","NE","MW","SW","W","NE","W","SW","MW","SE","MW","NE","SE","SW","W"],[0.17627,0.17727,0.18245,0.1441,0.23451,0.21256,0.1659,0.15641,0.20782,0.18625,0.13055,0.16116,0.22193,0.17978,0.18762,0.14539,0.14716,0.22329,0.18657,0.1843],[0.16215,0.17209,0.19355,0.15861,0.21442,0.21442,0.16215,0.15861,0.19355,0.17209,0.16215,0.17209,0.19355,0.15861,0.21442,0.15861,0.16215,0.21442,0.19355,0.17209]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sampling_Plan<\/th>\n      <th>Region<\/th>\n      <th>Sample_Default_Rate<\/th>\n      <th>Subpopulation_Default_Rate<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":61,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Sampling_Plan","targets":1},{"name":"Region","targets":2},{"name":"Sample_Default_Rate","targets":3},{"name":"Subpopulation_Default_Rate","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,50,61,100]}},"evals":[],"jsHooks":[]}</script>
+&lt;p class="caption"&gt;Summary of inferential statistics of the full model&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+class: top, center
+
+##    Comparison Between Each other:
+
+.left[
+- Default Rate for each Region Based on Sampling Plan
+]
+
+&lt;img src="490Grp2_files/figure-html/all_region_default_rates-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
+class: top, center
+
+##    Visualization For Final Choice:
+
+
+&lt;img src="490Grp2_files/figure-html/plot_1-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+class: top, center
+
+##    Visualization for Final Choice
+
+
+
+
+
+
+&lt;img src="490Grp2_files/figure-html/plot_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+---
+class: top, center
+
+##     Conclusion
+
+.left[
+- Final Choice
+
+- Why this is important
+
+- Questions
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

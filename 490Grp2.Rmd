@@ -1,0 +1,729 @@
+---
+title: '<font size = 7 color = "white">Comparing Potential Sampling Plans.</font>'
+subtitle: 
+author: '<font size = 5 color = "white"> Kyle Weber and Ian Vanwright </font>'
+institute: '<font size = 6 color = "white">West Chester University of Pennsylvania</font><br> '
+date: ' <font color = "white" size =4> Prepared for<br> </font> <font color = "gold" size = 6> STA490: Data Visualization </font> <br><br> <font color = "white" size = 3> Slides available at: https://rpubs.com/KW986324 AND https://github.com/Kyle-Weber/STA490</font>'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer01.css
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("pander")) {
+   install.packages("pander")
+   library(pander)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("ggplot2")) {
+   install.packages("ggplot2")
+   library(ggplot2)
+}
+knitr::opts_chunk$set(
+                  fig.width=3, 
+                  fig.height=3, 
+                  fig.retina=12,
+                  out.width = "100%",
+                  cache = FALSE,
+                  echo = FALSE,
+                  message = FALSE, 
+                  warning = FALSE,
+                  hiline = TRUE
+                  )
+```
+
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+  style_duo_accent(primary_color = "#1F4257",
+          secondary_color = "#380F2A",
+          # fonts
+          header_font_google = google_font("Martel"),
+          text_font_google = google_font("Lato"),
+          code_font_google = google_font("Fira Mono"))
+  
+
+```
+
+
+```{r, include=FALSE}
+ if (!require("xaringanthemer")) {
+      install.packages("xaringanthemer")
+      library(xaringanthemer)
+     }
+```
+
+
+
+
+```{r, include=FALSE}
+## Data Set
+library(dplyr)
+library(ggplot2)
+
+github_urls <- c(
+  "https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational01.csv",
+  "https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational02.csv",
+  "https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational03.csv",
+  "https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational04.csv",
+  "https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational05.csv",
+  "https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational06.csv",
+  "https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational07.csv",
+  "https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational08.csv",
+  "https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational09.csv"
+)
+
+BankLoan <- read.csv("https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational01.csv", header = TRUE)
+
+
+for (i in 2:9) {
+  file_url <- paste0("https://raw.githubusercontent.com/Kyle-Weber/STA490/main/data%20sets/w06-SBAnational0", i, ".csv")
+  data_to_append <- read.csv(file_url, header = TRUE)
+  BankLoan <- rbind(BankLoan, data_to_append)
+}
+
+
+```
+
+
+class: top, center
+##    Table of Contents: 
+
+.left[
+
+- Data Cleaning
+
+- Combining Categories
+
+- Default Rate
+
+- Analyzing Four Sampling Plans
+
+- Comparing Default Rates
+
+- Default Rate Visualization
+
+- Conclusion
+]
+
+
+
+
+
+
+---
+
+
+class: top, center
+##    Data Cleaning: 
+
+
+.left[
+
+
+- Removed All Missing Values 
+
+- Changed Currency Values to Numerical
+
+- Remaining Observations is 897154
+
+
+]
+
+
+```{r, include=FALSE}
+## Step 1: Deleting NA Values
+
+
+library(dplyr)
+
+# check values
+unique_values <- lapply(BankLoan[, c("DisbursementGross", "BalanceGross", "ChgOffPrinGr", "GrAppv", "SBA_Appv")], unique)
+
+
+miss1 <- BankLoan[which(BankLoan$MIS_Status == ""), ]
+nrow(miss1)
+
+miss2 <- BankLoan[which(BankLoan$State == ""), ]
+nrow(miss2)
+
+
+BankLoan <- BankLoan[!(is.na(BankLoan$State) | BankLoan$State == ""), ]
+
+
+missTotal <- rbind(miss1, miss2)
+nrow(missTotal)
+
+BankLoan_cleaned <- BankLoan[-which(BankLoan$State == ""), ]
+BankLoan_cleaned <- BankLoan[-which(BankLoan$MIS_Status == ""), ]
+
+
+
+```
+
+
+
+---
+
+class: top, center
+##    Combining Categories: 
+
+.left[
+
+- Variable "State" Combined into 5 Regions
+
+- Represent Geographical Region
+
+- Frequency Table of Regions
+
+- Lowest is SouthWest
+
+]
+
+
+
+
+```{r, include=FALSE}
+##  Step 2: Choosing Categorical Variable
+
+BankLoan_cleaned <- BankLoan_cleaned %>%
+  mutate(State = case_when(
+    State %in% c("AL", "AR", "GA", "KY", "LA", "MS", "SC", "TN", "WV", "OK") ~ "SW",
+    State %in% c("AK", "AZ", "CA", "CO", "HI", "ID", "MT", "NV", "NM", "OR", "UT", "WA", "WY") ~ "W",
+    State %in% c("CT", "DE", "MA", "MD", "ME", "NH", "NJ", "NY", "PA", "RI", "VT") ~ "NE",
+    State %in% c("IL", "IN", "IA", "KS", "MI", "MN", "MO", "NE", "ND", "OH", "SD", "WI") ~ "MW",
+    State %in% c("FL", "NC", "TX", "VA", "DC") ~ "SE",
+    TRUE ~ as.character(State)
+  ))
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+State_frequencies <- BankLoan_cleaned %>%
+  count(State)
+
+# Print the result as a table
+kable(State_frequencies, col.names = c("Region", "Frequency"))
+
+
+
+```
+
+
+---
+class: top, center
+
+##    Calculating Default Rates:
+
+.left[
+
+- Original Rates for Data Set
+
+- Provides a Comparison to the Sampling Plans
+
+-  Southeast has the highest rate
+]
+
+<!--If need time can talk about why they are important-->
+
+```{r, echo=FALSE, warning=FALSE}
+##  Step 3: Calculating Default Rates
+
+default_rates <- BankLoan_cleaned %>%
+  group_by(State) %>%
+  summarise(Default_Rate = mean(MIS_Status == "CHGOFF"))
+
+
+kable(default_rates, col.names= c("State", "Default Rate"))
+
+```
+
+
+---
+
+```{r, echo=FALSE, warning=FALSE}
+clusters <- unique(BankLoan_cleaned$Zip)
+
+```
+
+class: top, center
+
+##    Simple Random Sampling Process:
+
+.left[
+
+- Random Sample of 4000
+
+<!-- why 4000 less than 5% of original data set -->
+
+- Taken from Cleaned Data Set
+
+- Frequency  and Default Rate Table
+
+]
+
+
+```{r, echo=FALSE, warning=FALSE}
+random_sample <- BankLoan_cleaned[sample(nrow(BankLoan_cleaned), 4000), ]
+
+
+random_sample_dim <- dim(random_sample)
+
+size_var_count <- data.frame(Size = random_sample_dim[1], Var.count = random_sample_dim[2])
+
+kable(t(size_var_count), col.names = c("Size", "Var.count"))
+
+
+
+
+
+
+
+
+# Define a function to calculate default rates for each region
+calculate_region_default_rates <- function(data) {
+  # Create a data frame to store the results
+  region_default_rates <- data.frame(Region = character(), Sample_Default_Rate = numeric(), stringsAsFactors = FALSE)
+  
+  # Calculate default rates for each region
+  for (region in unique(data$State)) {
+    region_data <- data[data$State == region, ]
+    region_default_rate <- sum(region_data$MIS_Status == "CHGOFF") / nrow(region_data)
+    region_default_rates <- rbind(region_default_rates, data.frame(Region = region, Sample_Default_Rate = region_default_rate))
+  }
+  
+  return(region_default_rates)
+}
+
+# Calculate default rates for each region within the state for Simple Random Sampling
+simple_random_region_default_rates <- calculate_region_default_rates(random_sample)
+
+# Print the default rates for each region for Simple Random Sampling
+kable(simple_random_region_default_rates)
+
+
+```
+
+---
+
+
+
+class: top, center
+##    Systematic Sample:
+
+.left[
+
+- Jump size created on 4000 observations
+
+- Selects observations from fixed intervals
+
+- Representative of entire population
+
+- Rounding Error
+
+]
+
+
+```{r, echo=FALSE, warning=FALSE}
+jump.size = dim(BankLoan_cleaned)[1] %/% 4000
+rand.starting.pt = sample(1:jump.size, 1)
+sampling.id = seq(rand.starting.pt, dim(BankLoan_cleaned)[1], jump.size)
+sys.sample = BankLoan_cleaned[sampling.id, ]
+
+sys.Sample.dim = dim(sys.sample)
+names(sys.Sample.dim) = c("Size", "Var.count")
+kable(t(sys.Sample.dim))
+
+
+
+
+
+
+
+# Calculate default rates for each region within the state for Systematic Sampling
+systematic_region_default_rates <- calculate_region_default_rates(sys.sample)
+
+# Print the default rates for each region for Systematic Sampling
+kable(systematic_region_default_rates)
+
+
+```
+
+
+---
+
+class: top, center
+##    Stratified Sampling: 
+
+.left[
+
+
+- Strata Size for Regions
+
+- 4000 Observations
+
+- Default Rates
+
+
+]
+
+```{r, echo=FALSE, warning=FALSE}
+library(kableExtra)
+freq.table = table(BankLoan_cleaned$State)  # frequency table of strNAICS
+rel.freq = freq.table/sum(freq.table)   # relative frequency 
+strata.size = round(rel.freq*4000)      # strata size allocation
+strata.names=names(strata.size)  
+
+kable(t(strata.size))
+
+```
+
+
+
+```{r, echo=FALSE, warning=FALSE}
+strata.sample = BankLoan_cleaned[1,]    # create a reference data frame
+strata.sample$add.id = 1   # add a temporary ID to because in the loop
+                           # i =2 testing a single iteration
+for (i in 1:length(strata.names)){
+   ith.strata.names = strata.names[i]   # extract data frame names
+   ith.strata.size = strata.size[i]     # allocated stratum size
+   # The following code identifies observations to be selected
+   ith.sampling.id = which(BankLoan_cleaned$State==ith.strata.names) 
+   ith.strata = BankLoan_cleaned[ith.sampling.id,]  # i-th stratified population
+   ith.strata$add.id = 1:dim(ith.strata)[1]  # add sampling list/frame
+   # The following code generates a subset of random ID
+   ith.sampling.id = sample(1:dim(ith.strata)[1], ith.strata.size) 
+   ## Create a selection status -- pay attention to the operator: %in% 
+   ith.sample =ith.strata[ith.strata$add.id %in%ith.sampling.id,]
+   ## dim(ith.sample)         $ check the sample
+   strata.sample = rbind(strata.sample, ith.sample)  # stack all data frame!
+ }
+ # dim(strata.sample)
+ strat.sample.final = strata.sample[-1,]  # drop the 
+
+ 
+ 
+ 
+
+ 
+ 
+# Calculate default rates for each region within the state for Stratified Sampling
+stratified_region_default_rates <- calculate_region_default_rates(strat.sample.final)
+
+# Print the default rates for each region for Stratified Sampling
+kable(stratified_region_default_rates)
+
+
+```
+
+
+---
+
+class: top, center
+## Cluster Sampling:
+
+.left[
+
+- ZipCode used to Define Clusters
+
+- 140 Clusters Taken
+
+
+
+]
+
+
+```{r, echo=FALSE, warning=FALSE}
+clusters <- unique(BankLoan_cleaned$Zip)
+
+```
+
+
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(kableExtra)
+
+clusters <- unique(BankLoan_cleaned$Zip)
+
+# Take a cluster sample using zip codes
+selected_clusters <- sample(clusters, 140)  # Adjust the number of clusters
+cluster_sample <- BankLoan_cleaned[BankLoan_cleaned$Zip %in% selected_clusters, ]
+
+
+# Print the size and variable count
+cluster_sample_dim <- dim(cluster_sample)
+size_var_count_cluster <- data.frame(Size = cluster_sample_dim[1], Var.count = cluster_sample_dim[2])
+kable(t(size_var_count_cluster), col.names = c("Size", "Var.count"))
+
+
+
+# Calculate default rates 
+clustering_region_default_rates <- cluster_sample %>%
+  group_by(State) %>%
+  summarise(Default_Rate = mean(MIS_Status == "CHGOFF"))
+
+# Print default rates for each region
+kable(clustering_region_default_rates, col.names = c("Region", "Default Rate"))
+
+```
+
+
+
+
+
+---
+
+class: top, center
+##   Default Rate Comparison:
+
+.left[
+- Comparison of Default Rates Across Regions
+
+- Sample Default Rate vs True Default Rate
+
+- Systematic or Stratified
+]
+
+```{r interactive-logistic-regression-summary, echo=FALSE, fig.cap="Summary of inferential statistics of the full model", out.width="100%"}
+# Define a function to calculate default rates for each region
+calculate_region_default_rates <- function(data) {
+  # Create a data frame to store the results
+  region_default_rates <- data.frame(Region = character(), Sample_Default_Rate = numeric(), Subpopulation_Default_Rate = numeric(), stringsAsFactors = FALSE)
+  
+  # Calculate default rates for each region
+  for (region in unique(data$State)) {
+    region_data <- data[data$State == region, ]
+    region_sample_default_rate <- sum(region_data$MIS_Status == "CHGOFF") / nrow(region_data)
+    region_subpopulation_default_rate <- sum(BankLoan_cleaned$MIS_Status[BankLoan_cleaned$State == region] == "CHGOFF") / sum(BankLoan_cleaned$State == region)
+    region_default_rates <- rbind(region_default_rates, data.frame(Region = region, Sample_Default_Rate = region_sample_default_rate, Subpopulation_Default_Rate = region_subpopulation_default_rate))
+  }
+  
+  return(region_default_rates)
+}
+
+# Calculate default rates for each region within the state for each sampling process
+simple_random_region_default_rates <- calculate_region_default_rates(random_sample)
+systematic_region_default_rates <- calculate_region_default_rates(sys.sample)
+clustering_region_default_rates <- calculate_region_default_rates(cluster_sample)
+stratified_region_default_rates <- calculate_region_default_rates(strat.sample.final)
+
+# Combine default rates for each region from all sampling processes into a single data frame
+all_region_default_rates <- rbind(
+  data.frame(Sampling_Plan = "Simple Random", simple_random_region_default_rates),
+  data.frame(Sampling_Plan = "Systematic", systematic_region_default_rates),
+  data.frame(Sampling_Plan = "Clustering", clustering_region_default_rates),
+  data.frame(Sampling_Plan = "Stratified", stratified_region_default_rates)
+)
+
+
+
+library(DT)
+
+# Create a summary table
+summary_table <- all_region_default_rates
+
+# Round numeric columns to 5 decimal places
+summary_table$Sample_Default_Rate <- round(summary_table$Sample_Default_Rate, digits = 5)
+summary_table$Subpopulation_Default_Rate <- round(summary_table$Subpopulation_Default_Rate, digits = 5)
+
+# Render the summary table interactively
+datatable(summary_table, 
+          options = list(dom = 't', 
+                         pageLength = 61, 
+                         scrollY = '200px', 
+                         scrollCollapse = TRUE))
+
+
+
+```
+
+
+---
+
+class: top, center
+
+##    Comparison Between Each other:
+
+.left[
+- Default Rate for each Region Based on Sampling Plan
+]
+
+```{r all_region_default_rates,  echo=FALSE, fig.asp=0.5, fig.align='center'}
+# Load required libraries
+# Load required libraries
+library(ggplot2)
+
+# Define column names for region default rates
+col_names <- c("Region", "Default_Rate")
+
+# Set column names for each data frame
+names(simple_random_region_default_rates) <- col_names
+names(systematic_region_default_rates) <- col_names
+names(clustering_region_default_rates) <- col_names
+names(stratified_region_default_rates) <- col_names
+
+# Add the Sampling_Plan column to each data frame
+simple_random_region_default_rates$Sampling_Plan <- "Simple Random"
+systematic_region_default_rates$Sampling_Plan <- "Systematic"
+clustering_region_default_rates$Sampling_Plan <- "Clustering"
+stratified_region_default_rates$Sampling_Plan <- "Stratified"
+
+# Combine all region default rates into a single data frame
+all_region_default_rates <- rbind(simple_random_region_default_rates, 
+                                  systematic_region_default_rates, 
+                                  clustering_region_default_rates, 
+                                  stratified_region_default_rates)
+
+# Create a bar plot with adjusted font sizes and custom colors
+ggplot(all_region_default_rates, aes(x = Region, y = Default_Rate, fill = Sampling_Plan)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = c("Simple Random" = "orange", 
+                                "Systematic" = "darkgreen", 
+                                "Clustering" = "blue", 
+                                "Stratified" = "magenta")) +  # Set custom colors
+  labs(title = "Default Rates for Each Region by Sampling Plan",
+       x = "Region", y = "Default Rate", fill = "Sampling Plan") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 6),      # Adjust x-axis tick label font size
+        axis.text.y = element_text(size = 4),      # Adjust y-axis tick label font size
+        axis.title.x = element_text(size = 4),    # Adjust x-axis label font size
+        axis.title.y = element_text(size = 4),    # Adjust y-axis label font size
+        legend.text = element_text(size = 6),      # Adjust legend text font size
+        legend.title = element_text(size = 6),    # Adjust legend title font size
+        plot.title = element_text(size = 6))      # Adjust plot title font size
+
+
+```
+
+
+
+---
+
+class: top, center
+
+##    Visualization For Final Choice:
+
+
+```{r plot_1,  echo=FALSE, fig.asp=0.5, fig.align='center'}
+
+# Separate data frames for each pair of sampling plans
+summary_table_1 <- subset(summary_table, Sampling_Plan %in% c("Simple Random", "Systematic"))
+summary_table_2 <- subset(summary_table, Sampling_Plan %in% c("Clustering", "Stratified"))
+
+# Plot for the first pair of sampling plans
+plot_1 <- ggplot(summary_table_1, aes(x = Region, y = Sample_Default_Rate, fill = Sampling_Plan)) +
+  geom_col(position = "dodge", color = "black", width = 0.5) +
+  geom_col(aes(y = Subpopulation_Default_Rate), position = "dodge", alpha = 0.5, color = "black", width = 0.5) +
+  labs(title = "Default Rates by Region",
+       y = "Default Rate",
+       fill = "Sampling Plan") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 4),  # Rotate and decrease x-axis labels
+        axis.text.y = element_text(size = 3),     # Decrease y-axis tick label font size
+        axis.title.y = element_text(size = 3),    # Decrease y-axis label font size
+        legend.text = element_text(size = 3),     # Decrease legend text font size
+        legend.title = element_text(size = 3),    # Decrease legend title font size
+        plot.title = element_text(size = 3),      # Decrease plot title font size
+        strip.text.x = element_text(size = 4)) +  # Decrease font size of top x-axis labels
+  facet_wrap(~ Sampling_Plan, scales = "free_x")
+
+plot_1
+
+
+
+```
+
+
+---
+
+class: top, center
+
+##    Visualization for Final Choice
+
+
+
+
+
+
+```{r plot_2,  echo=FALSE, fig.asp=0.5, fig.align='center'}
+# Plot for the second pair of sampling plans
+plot_2 <- ggplot(summary_table_2, aes(x = Region, y = Sample_Default_Rate, fill = Sampling_Plan)) +
+  geom_col(position = "dodge", color = "black", width = 0.5) +
+  geom_col(aes(y = Subpopulation_Default_Rate), position = "dodge", alpha = 0.5, color = "black", width = 0.5) +
+  labs(title = "Comparison of Sample Default Rates to Subpopulation Default Rates by Region",
+       y = "Default Rate",
+       fill = "Sampling Plan") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 4),  # Rotate and decrease x-axis labels
+        axis.text.y = element_text(size = 3),     # Decrease y-axis tick label font size
+        axis.title.y = element_text(size = 3),    # Decrease y-axis label font size
+        legend.text = element_text(size = 3),     # Decrease legend text font size
+        legend.title = element_text(size = 3),    # Decrease legend title font size
+        plot.title = element_text(size = 4),      # Decrease plot title font size
+        strip.text.x = element_text(size = 4)) +  # Decrease font size of top x-axis labels
+  facet_wrap(~ Sampling_Plan, scales = "free_x")
+
+
+
+plot_2
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+---
+class: top, center
+
+##     Conclusion
+
+.left[
+- Final Choice
+
+- Why this is important
+
+- Questions
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
