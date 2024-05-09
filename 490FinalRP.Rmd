@@ -86,7 +86,7 @@ class: top, center
 <br>
 <li> Goodness-of-Fit </li>
 <br>
-<li> Likiliehood Test </li>
+<li> Likelihood Ratio Test </li>
 <br>
 <li> Odds Ratio  </li>
 <br>
@@ -101,13 +101,22 @@ class: top, center
 ##    Variables Used: 
 
 .left[
+<br>
+
 15 total Variables
+<br>
 
 7 Numerical 
+<br>
 
 How Variables Were Chosen (intervenable)
+<br>
 
 Overfitting Concerns
+<br>
+
+Primary Questions: Significance of JobSatisfaction and Income on JobPerformance
+
 ]
 
 
@@ -120,6 +129,9 @@ library(dplyr)
 library(MASS)
 library(plotly)
 ```
+
+
+
 
 
 ---
@@ -179,10 +191,16 @@ class: top, center
 
 .left[
 Only Three's and Four's in Response Variable Level 
+<br>
+<br>
 
 Serious Class Imbalance in Performance Rating
+<br>
+<br>
 
 1244 Three's and 226 Four's (5:1 Ratio)
+<br>
+<br>
 
 Fours Weighted 5 Times Heavier than Three's 
 ]
@@ -263,7 +281,10 @@ class: top, center
 No Evidence of Multiconlinearity
 ]
 
-```{r, echo-FALSE}
+```{r interactive-full-VIFTable, echo=FALSE, fig.cap="Summary of inferential statistics of the final model", out.width="70%", fig.height=2}
+
+
+
 # Load required libraries
 library(car)
 library(kableExtra)
@@ -279,7 +300,9 @@ colnames(vif_df) <- c("Variable", "VIF")
 
 # Display as a nice table using kable
 kable(vif_df, caption = "Variance Inflation Factors (VIF) for the Full Model") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+  kable_styling(bootstrap_options = c("striped", "hover", "bordered", "condensed", "responsive"))
+
+
 
 
 ```
@@ -469,7 +492,7 @@ datatable(rounded_goodness,
 
 class: top, center
 
-##    LikliehoodRatio Test:
+##    Likelihood Ratio Test:
 .left[
 
 P-Value is Insignificant
@@ -513,7 +536,7 @@ class: top, center
 
 .left[
 
-Have X-Times the Odds of Being Approved Compared to Baseline
+The Odds of Being Scored a 4 are X-Times the Odds of Being Scored a 3 Compared to the Baseline
 
 Most Result in Less Odds
 
@@ -562,9 +585,12 @@ class: top, center
 ##    Conclusion:
 .left[
 
-Primary Question Analysis
+<br>
+Recommendations
 
-Practical Significance
+<li>Survey on Job Satisfaction</li>
+<br>
+<li> Incomes Affect on JobSatisfaction </li>
 
 
 ]
