@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Analyzing Employee Performancing Ratings.</title>
+    <title>Analyzing Credit Approval Rates.</title>
     <meta charset="utf-8" />
-    <meta name="author" content=" Kyle Weber and Haley Koprivsek " />
+    <meta name="author" content=" Kyle Weber and Josh Zhong " />
     <script src="490FinalRP_files/header-attrs/header-attrs.js"></script>
     <link href="490FinalRP_files/htmltools-fill/fill.css" rel="stylesheet" />
     <script src="490FinalRP_files/htmlwidgets/htmlwidgets.js"></script>
@@ -24,13 +24,13 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# <font size = 7 color = "white">Analyzing Employee Performancing Ratings.</font>
+# <font size = 7 color = "white">Analyzing Credit Approval Rates.</font>
 ]
 .subtitle[
-## <img src="Pimg/WPIMG.jpg" width=175 height=100>
+## <img src="Pimg/RedCard.png" width=175 height=100>
 ]
 .author[
-### <font size = 5 color = "white"> Kyle Weber and Haley Koprivsek </font>
+### <font size = 5 color = "white"> Kyle Weber and Josh Zhong </font>
 ]
 .institute[
 ### <font size = 6 color = "white">West Chester University of Pennsylvania</font><br>
@@ -56,66 +56,13 @@ class: center, middle, inverse, title-slide
 
 
 
-class: top, center
-##    Table of Contents: 
-
-.left[
-
-&lt;li&gt; Variable Overview &lt;/li&gt;
-&lt;br&gt;
-&lt;li&gt; Exploratory Analysis &lt;/li&gt;
-&lt;br&gt;
-&lt;li&gt; Multiple Logistic Regression Models &lt;/li&gt;
-&lt;br&gt;
-&lt;li&gt; Goodness-of-Fit &lt;/li&gt;
-&lt;br&gt;
-&lt;li&gt; Likiliehood Test &lt;/li&gt;
-&lt;br&gt;
-&lt;li&gt; Odds Ratio  &lt;/li&gt;
-&lt;br&gt;
-&lt;li&gt; Conclusion &lt;/li&gt;
-
-]
-
----
-class: top, center
-
-
-##    Variables Used: 
-
-.left[
-15 total Variables
-
-7 Numerical 
-
-How Variables Were Chosen (intervenable)
-
-Overfitting Concerns
-]
-
-
-
 
 
 ---
-class: top, center
 
-##    Pairwise Scatter Plot:
+##    Pairwise
 
-.left[
-Contains Numerical Intervenable Variables
-
-7 Total Variables
-
-Issues With Skewness
-
-Multicollinearity Issues
-
-]
-
-
-&lt;img src="490FinalRP_files/figure-html/interactive-scatterplot-matrix {r-1.png" width="400px" /&gt;
-
+&lt;img src="490FinalRP_files/figure-html/interactive-scatterplot-matrix-1.png" width="50%" height="50%" /&gt;
 
 
 
@@ -125,53 +72,28 @@ Multicollinearity Issues
 
 
 ---
-class: top, center
+##    Weights
 
-##    Weighting Variables:
-
-.left[
-Only Three's and Four's in Response Variable Level 
-
-Serious Class Imbalance in Performance Rating
-
-1244 Three's and 226 Four's (5:1 Ratio)
-
-Fours Weighted 5 Times Heavier than Three's 
-]
 
 
 
 
 ---
 
-class: top, center
+##    Full model
 
-##    Full Model:
-
-.left[
-Contains all 15 variables
-
-Most Variables Not Statistically Significant
-
-Relevant Variables(JobSatisifaction, YearsInCurrentRole, and JobInvolvement)
-]
 
 &lt;div class="figure"&gt;
-<div class="datatables html-widget html-fill-item" id="htmlwidget-7055a93184fce015a194" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-7055a93184fce015a194">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","HourlyRate","WorkLifeBalance2","WorkLifeBalance3","WorkLifeBalance4","YearsInCurrentRole","YearsSinceLastPromotion","TrainingTimesLastYear","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4","YearsWithCurrManager","YearsAtCompany","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","OverTimeYes","BusinessTravelTravel_Frequently","BusinessTravelTravel_Rarely","JobInvolvement2","JobInvolvement3","JobInvolvement4","Education2","Education3","Education4","Education5"],[1.1197,-0.0365,-0.3756,0.0698,-0,-0.0002,-0.2892,-0.114,-0.1976,0.0606,0.0118,-0.0402,-0.2718,-0.1903,-0.3675,0.022,-0.0368,0.2265,-0.0115,-0.0441,0.025,-0.0643,-0.1746,-0.3735,-0.426,-0.5725,-0.0837,-0.3001,-0.3271,0.0934],[0.3659,0.1341,0.1241,0.1192,0,0.0021,0.1969,0.1839,0.2189,0.0196,0.0168,0.033,0.1355,0.1203,0.1228,0.0201,0.0149,0.09320000000000001,0.1479,0.1911,0.0945,0.1614,0.1401,0.1889,0.1781,0.2184,0.1537,0.139,0.1466,0.2558],[3.0601,-0.2719,-3.0273,0.586,-1.5293,-0.1045,-1.4686,-0.6201,-0.9026999999999999,3.0939,0.7032,-1.2171,-2.0064,-1.5825,-2.9924,1.0932,-2.4757,2.4318,-0.0774,-0.2306,0.2646,-0.3985,-1.2462,-1.9766,-2.3915,-2.622,-0.5446,-2.1593,-2.2319,0.3649],[0.0022,0.7857,0.0025,0.5579,0.1262,0.9167999999999999,0.1419,0.5352,0.3667,0.002,0.4819,0.2236,0.0448,0.1135,0.0028,0.2743,0.0133,0.015,0.9383,0.8176,0.7913,0.6902,0.2127,0.0481,0.0168,0.008699999999999999,0.586,0.0308,0.0256,0.7151999999999999]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":61,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,50,61,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-4d16f2a253de13b11c54" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4d16f2a253de13b11c54">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","HourlyRate","WorkLifeBalance2","WorkLifeBalance3","WorkLifeBalance4","YearsInCurrentRole","YearsSinceLastPromotion","TrainingTimesLastYear","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4","YearsWithCurrManager","YearsAtCompany","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","OverTimeYes","BusinessTravelTravel_Frequently","BusinessTravelTravel_Rarely","JobInvolvement2","JobInvolvement3","JobInvolvement4","Education2","Education3","Education4","Education5"],[1.1197,-0.0365,-0.3756,0.0698,-0,-0.0002,-0.2892,-0.114,-0.1976,0.0606,0.0118,-0.0402,-0.2718,-0.1903,-0.3675,0.022,-0.0368,0.2265,-0.0115,-0.0441,0.025,-0.0643,-0.1746,-0.3735,-0.426,-0.5725,-0.0837,-0.3001,-0.3271,0.0934],[0.3659,0.1341,0.1241,0.1192,0,0.0021,0.1969,0.1839,0.2189,0.0196,0.0168,0.033,0.1355,0.1203,0.1228,0.0201,0.0149,0.09320000000000001,0.1479,0.1911,0.0945,0.1614,0.1401,0.1889,0.1781,0.2184,0.1537,0.139,0.1466,0.2558],[3.0601,-0.2719,-3.0273,0.586,-1.5293,-0.1045,-1.4686,-0.6201,-0.9026999999999999,3.0939,0.7032,-1.2171,-2.0064,-1.5825,-2.9924,1.0932,-2.4757,2.4318,-0.0774,-0.2306,0.2646,-0.3985,-1.2462,-1.9766,-2.3915,-2.622,-0.5446,-2.1593,-2.2319,0.3649],[0.0022,0.7857,0.0025,0.5579,0.1262,0.9167999999999999,0.1419,0.5352,0.3667,0.002,0.4819,0.2236,0.0448,0.1135,0.0028,0.2743,0.0133,0.015,0.9383,0.8176,0.7913,0.6902,0.2127,0.0481,0.0168,0.008699999999999999,0.586,0.0308,0.0256,0.7151999999999999]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":61,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,50,61,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 &lt;p class="caption"&gt;Summary of inferential statistics of the final model&lt;/p&gt;
 &lt;/div&gt;
 
 
 
 ---
-class: top, center
 
 ##    VIF Analysis: 
-
-.left[
-No Evidence of Multiconlinearity
-]
 
 &lt;table class="table table-striped table-hover table-condensed table-responsive" style="color: black; margin-left: auto; margin-right: auto;"&gt;
 &lt;caption&gt;Variance Inflation Factors (VIF) for the Full Model&lt;/caption&gt;
@@ -282,67 +204,26 @@ No Evidence of Multiconlinearity
 
 
 ---
-class: top, center
 
-##    Reduced Model: 
+##    Reduced
 
-.left[
-Variables Removed Manually
 
-Variables Chosen Based on Significance and Importance
-]
 
 &lt;div class="figure"&gt;
-<div class="datatables html-widget html-fill-item" id="htmlwidget-e69d3d7843f3850585b8" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e69d3d7843f3850585b8">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","YearsInCurrentRole","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","Education2","Education3","Education4","Education5","YearsAtCompany","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4","TrainingTimesLastYear"],[0.4561,-0.0566,-0.371,0.0514,-0,0.0688,0.2096,-0.0257,-0.054,-0.1087,-0.316,-0.3302,0.0618,-0.0255,-0.2725,-0.179,-0.349,-0.0416],[0.2087,0.1327,0.1223,0.1175,0,0.0183,0.0922,0.1456,0.1882,0.1523,0.1381,0.1453,0.2544,0.0122,0.1336,0.1192,0.1208,0.0325],[2.1861,-0.4269,-3.0335,0.4373,-1.5847,3.7517,2.2737,-0.1763,-0.2871,-0.7139,-2.2879,-2.2719,0.2428,-2.0918,-2.0395,-1.5014,-2.8881,-1.2825],[0.0288,0.6695,0.0024,0.6619,0.113,0.0002,0.023,0.8601,0.7741,0.4753,0.0221,0.0231,0.8082,0.0365,0.0414,0.1333,0.0039,0.1997]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":40,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-c9921579fb15ff62226f" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c9921579fb15ff62226f">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","YearsInCurrentRole","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","Education2","Education3","Education4","Education5","YearsAtCompany","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4","TrainingTimesLastYear"],[0.4561,-0.0566,-0.371,0.0514,-0,0.0688,0.2096,-0.0257,-0.054,-0.1087,-0.316,-0.3302,0.0618,-0.0255,-0.2725,-0.179,-0.349,-0.0416],[0.2087,0.1327,0.1223,0.1175,0,0.0183,0.0922,0.1456,0.1882,0.1523,0.1381,0.1453,0.2544,0.0122,0.1336,0.1192,0.1208,0.0325],[2.1861,-0.4269,-3.0335,0.4373,-1.5847,3.7517,2.2737,-0.1763,-0.2871,-0.7139,-2.2879,-2.2719,0.2428,-2.0918,-2.0395,-1.5014,-2.8881,-1.2825],[0.0288,0.6695,0.0024,0.6619,0.113,0.0002,0.023,0.8601,0.7741,0.4753,0.0221,0.0231,0.8082,0.0365,0.0414,0.1333,0.0039,0.1997]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":40,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 &lt;p class="caption"&gt;Summary of inferential statistics of the final model&lt;/p&gt;
 &lt;/div&gt;
 
 
 
 ---
-class: top, center
 
-##    Step AIC Model: 
-
-.left[
-Variables Chosen Using Automatic Variable Selection
-
-Based off Reduced Model
-
-Removed TrainingTimesLastYear
-]
+##    Step AIC
 
 &lt;div class="figure"&gt;
-<div class="datatables html-widget html-fill-item" id="htmlwidget-c33e9152e60e068ca78a" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-c33e9152e60e068ca78a">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","YearsInCurrentRole","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","Education2","Education3","Education4","Education5","YearsAtCompany","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4"],[0.3297,-0.0553,-0.3646,0.052,-0,0.06859999999999999,0.2132,-0.0319,-0.0474,-0.0993,-0.3111,-0.3199,0.0615,-0.0256,-0.275,-0.1793,-0.3465],[0.1837,0.1326,0.1222,0.1174,0,0.0183,0.0921,0.1456,0.1881,0.152,0.138,0.145,0.2542,0.0122,0.1335,0.1192,0.1208],[1.7948,-0.4168,-2.9847,0.4425,-1.5578,3.7414,2.3142,-0.2193,-0.2522,-0.6531,-2.2539,-2.2056,0.242,-2.0974,-2.0595,-1.5038,-2.8684],[0.0727,0.6768,0.0028,0.6581,0.1193,0.0002,0.0207,0.8264,0.8008999999999999,0.5137,0.0242,0.0274,0.8088,0.036,0.0394,0.1326,0.0041]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":40,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
-&lt;p class="caption"&gt;Summary of inferential statistics of the final model&lt;/p&gt;
-&lt;/div&gt;
-
-
-
-
-
-
-
-
----
-
-class: top, center
-
-# Backwards Model:
-.left[
-
-Based Off Full Model
-
-Automatic Variable Selection
-
-Removed 7 Variables from Full Model
-]
-
-&lt;div class="figure"&gt;
-<div class="datatables html-widget html-fill-item" id="htmlwidget-e98ade0b5640e84c91ad" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e98ade0b5640e84c91ad">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","YearsInCurrentRole","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4","YearsAtCompany","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","JobInvolvement2","JobInvolvement3","JobInvolvement4","Education2","Education3","Education4","Education5"],[0.7151999999999999,-0.0339,-0.3651,0.0529,-0,0.0706,-0.2902,-0.1861,-0.3565,-0.0264,0.2243,-0.0294,-0.065,-0.3671,-0.4327,-0.5674,-0.0674,-0.2957,-0.3024,0.0993],[0.2423,0.1334,0.1225,0.1178,0,0.0184,0.1341,0.1194,0.1212,0.0123,0.0926,0.1466,0.1895,0.1878,0.1767,0.2166,0.1528,0.1384,0.1456,0.2549],[2.9518,-0.2542,-2.9805,0.4492,-1.6405,3.8303,-2.1633,-1.5584,-2.9414,-2.1545,2.4231,-0.2009,-0.3429,-1.9546,-2.4483,-2.6202,-0.441,-2.136,-2.0779,0.3898],[0.0032,0.7994,0.0029,0.6533,0.1009,0.0001,0.0305,0.1191,0.0033,0.0312,0.0154,0.8408,0.7317,0.0506,0.0144,0.008800000000000001,0.6592,0.0327,0.0377,0.6967]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":40,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-a58fea0a2fb23b0ada6c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a58fea0a2fb23b0ada6c">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","YearsInCurrentRole","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","Education2","Education3","Education4","Education5","YearsAtCompany","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4"],[0.3297,-0.0553,-0.3646,0.052,-0,0.06859999999999999,0.2132,-0.0319,-0.0474,-0.0993,-0.3111,-0.3199,0.0615,-0.0256,-0.275,-0.1793,-0.3465],[0.1837,0.1326,0.1222,0.1174,0,0.0183,0.0921,0.1456,0.1881,0.152,0.138,0.145,0.2542,0.0122,0.1335,0.1192,0.1208],[1.7948,-0.4168,-2.9847,0.4425,-1.5578,3.7414,2.3142,-0.2193,-0.2522,-0.6531,-2.2539,-2.2056,0.242,-2.0974,-2.0595,-1.5038,-2.8684],[0.0727,0.6768,0.0028,0.6581,0.1193,0.0002,0.0207,0.8264,0.8008999999999999,0.5137,0.0242,0.0274,0.8088,0.036,0.0394,0.1326,0.0041]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":40,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 &lt;p class="caption"&gt;Summary of inferential statistics of the final model&lt;/p&gt;
 &lt;/div&gt;
 
@@ -351,19 +232,199 @@ Removed 7 Variables from Full Model
 
 
 
-class: top, center
+# backwards model
 
-##    Goodness-of-Fit-Test:
-
-.left[
-Includes The Four Regression Models
-
-Full Model and Backwards Model Show Similar Results
-]
+```
+## Start:  AIC=3275.52
+## PerformanceRating ~ JobSatisfaction + MonthlyIncome + HourlyRate + 
+##     WorkLifeBalance + YearsInCurrentRole + YearsSinceLastPromotion + 
+##     TrainingTimesLastYear + EnvironmentSatisfaction + YearsWithCurrManager + 
+##     YearsAtCompany + StockOptionLevel + OverTime + BusinessTravel + 
+##     JobInvolvement + Education
+## 
+##                           Df Deviance    AIC
+## - WorkLifeBalance          3   3219.2 3273.2
+## - HourlyRate               1   3215.5 3273.5
+## - OverTime                 1   3215.6 3273.6
+## - BusinessTravel           2   3217.7 3273.7
+## - YearsSinceLastPromotion  1   3216.0 3274.0
+## - YearsWithCurrManager     1   3216.7 3274.7
+## - TrainingTimesLastYear    1   3217.0 3275.0
+## &lt;none&gt;                         3215.5 3275.5
+## - MonthlyIncome            1   3217.9 3275.9
+## - StockOptionLevel         3   3222.9 3276.9
+## - JobInvolvement           3   3223.1 3277.1
+## - Education                4   3226.0 3278.0
+## - EnvironmentSatisfaction  3   3225.0 3279.0
+## - YearsAtCompany           1   3221.8 3279.8
+## - YearsInCurrentRole       1   3225.2 3283.2
+## - JobSatisfaction          3   3234.0 3288.0
+## 
+## Step:  AIC=3273.25
+## PerformanceRating ~ JobSatisfaction + MonthlyIncome + HourlyRate + 
+##     YearsInCurrentRole + YearsSinceLastPromotion + TrainingTimesLastYear + 
+##     EnvironmentSatisfaction + YearsWithCurrManager + YearsAtCompany + 
+##     StockOptionLevel + OverTime + BusinessTravel + JobInvolvement + 
+##     Education
+## 
+##                           Df Deviance    AIC
+## - HourlyRate               1   3219.2 3271.2
+## - BusinessTravel           2   3221.3 3271.3
+## - OverTime                 1   3219.3 3271.3
+## - YearsSinceLastPromotion  1   3219.7 3271.7
+## - YearsWithCurrManager     1   3220.5 3272.5
+## - TrainingTimesLastYear    1   3220.9 3272.9
+## &lt;none&gt;                         3219.2 3273.2
+## - MonthlyIncome            1   3221.7 3273.7
+## - JobInvolvement           3   3226.6 3274.6
+## - StockOptionLevel         3   3226.7 3274.7
+## - Education                4   3229.7 3275.7
+## - EnvironmentSatisfaction  3   3228.5 3276.5
+## - YearsAtCompany           1   3225.7 3277.7
+## - YearsInCurrentRole       1   3229.3 3281.3
+## - JobSatisfaction          3   3237.0 3285.0
+## 
+## Step:  AIC=3271.25
+## PerformanceRating ~ JobSatisfaction + MonthlyIncome + YearsInCurrentRole + 
+##     YearsSinceLastPromotion + TrainingTimesLastYear + EnvironmentSatisfaction + 
+##     YearsWithCurrManager + YearsAtCompany + StockOptionLevel + 
+##     OverTime + BusinessTravel + JobInvolvement + Education
+## 
+##                           Df Deviance    AIC
+## - BusinessTravel           2   3221.3 3269.3
+## - OverTime                 1   3219.3 3269.3
+## - YearsSinceLastPromotion  1   3219.7 3269.7
+## - YearsWithCurrManager     1   3220.5 3270.5
+## - TrainingTimesLastYear    1   3220.9 3270.9
+## &lt;none&gt;                         3219.2 3271.2
+## - MonthlyIncome            1   3221.7 3271.7
+## - JobInvolvement           3   3226.6 3272.6
+## - StockOptionLevel         3   3226.7 3272.7
+## - Education                4   3229.7 3273.7
+## - EnvironmentSatisfaction  3   3228.5 3274.5
+## - YearsAtCompany           1   3225.7 3275.7
+## - YearsInCurrentRole       1   3229.3 3279.3
+## - JobSatisfaction          3   3237.1 3283.1
+## 
+## Step:  AIC=3269.29
+## PerformanceRating ~ JobSatisfaction + MonthlyIncome + YearsInCurrentRole + 
+##     YearsSinceLastPromotion + TrainingTimesLastYear + EnvironmentSatisfaction + 
+##     YearsWithCurrManager + YearsAtCompany + StockOptionLevel + 
+##     OverTime + JobInvolvement + Education
+## 
+##                           Df Deviance    AIC
+## - OverTime                 1   3221.3 3267.3
+## - YearsSinceLastPromotion  1   3221.8 3267.8
+## - YearsWithCurrManager     1   3222.6 3268.6
+## - TrainingTimesLastYear    1   3223.1 3269.1
+## &lt;none&gt;                         3221.3 3269.3
+## - MonthlyIncome            1   3223.7 3269.7
+## - StockOptionLevel         3   3228.6 3270.6
+## - JobInvolvement           3   3229.5 3271.5
+## - Education                4   3231.8 3271.8
+## - EnvironmentSatisfaction  3   3231.0 3273.0
+## - YearsAtCompany           1   3227.9 3273.9
+## - YearsInCurrentRole       1   3231.5 3277.5
+## - JobSatisfaction          3   3238.6 3280.6
+## 
+## Step:  AIC=3267.33
+## PerformanceRating ~ JobSatisfaction + MonthlyIncome + YearsInCurrentRole + 
+##     YearsSinceLastPromotion + TrainingTimesLastYear + EnvironmentSatisfaction + 
+##     YearsWithCurrManager + YearsAtCompany + StockOptionLevel + 
+##     JobInvolvement + Education
+## 
+##                           Df Deviance    AIC
+## - YearsSinceLastPromotion  1   3221.9 3265.9
+## - YearsWithCurrManager     1   3222.6 3266.6
+## - TrainingTimesLastYear    1   3223.2 3267.2
+## &lt;none&gt;                         3221.3 3267.3
+## - MonthlyIncome            1   3223.8 3267.8
+## - StockOptionLevel         3   3228.6 3268.6
+## - JobInvolvement           3   3229.6 3269.6
+## - Education                4   3231.8 3269.8
+## - EnvironmentSatisfaction  3   3231.0 3271.0
+## - YearsAtCompany           1   3227.9 3271.9
+## - YearsInCurrentRole       1   3231.5 3275.5
+## - JobSatisfaction          3   3238.9 3278.9
+## 
+## Step:  AIC=3265.89
+## PerformanceRating ~ JobSatisfaction + MonthlyIncome + YearsInCurrentRole + 
+##     TrainingTimesLastYear + EnvironmentSatisfaction + YearsWithCurrManager + 
+##     YearsAtCompany + StockOptionLevel + JobInvolvement + Education
+## 
+##                           Df Deviance    AIC
+## - YearsWithCurrManager     1   3223.2 3265.2
+## - TrainingTimesLastYear    1   3223.8 3265.8
+## &lt;none&gt;                         3221.9 3265.9
+## - MonthlyIncome            1   3224.3 3266.3
+## - StockOptionLevel         3   3229.2 3267.2
+## - JobInvolvement           3   3230.2 3268.2
+## - Education                4   3232.4 3268.4
+## - EnvironmentSatisfaction  3   3231.5 3269.5
+## - YearsAtCompany           1   3227.9 3269.9
+## - YearsInCurrentRole       1   3233.1 3275.1
+## - JobSatisfaction          3   3239.4 3277.4
+## 
+## Step:  AIC=3265.23
+## PerformanceRating ~ JobSatisfaction + MonthlyIncome + YearsInCurrentRole + 
+##     TrainingTimesLastYear + EnvironmentSatisfaction + YearsAtCompany + 
+##     StockOptionLevel + JobInvolvement + Education
+## 
+##                           Df Deviance    AIC
+## - TrainingTimesLastYear    1   3225.2 3265.2
+## &lt;none&gt;                         3223.2 3265.2
+## - MonthlyIncome            1   3226.0 3266.0
+## - StockOptionLevel         3   3230.7 3266.7
+## - JobInvolvement           3   3231.3 3267.3
+## - Education                4   3233.6 3267.6
+## - YearsAtCompany           1   3227.9 3267.9
+## - EnvironmentSatisfaction  3   3232.8 3268.8
+## - JobSatisfaction          3   3240.8 3276.8
+## - YearsInCurrentRole       1   3238.2 3278.2
+## 
+## Step:  AIC=3265.2
+## PerformanceRating ~ JobSatisfaction + MonthlyIncome + YearsInCurrentRole + 
+##     EnvironmentSatisfaction + YearsAtCompany + StockOptionLevel + 
+##     JobInvolvement + Education
+## 
+##                           Df Deviance    AIC
+## &lt;none&gt;                         3225.2 3265.2
+## - MonthlyIncome            1   3227.9 3265.9
+## - StockOptionLevel         3   3232.9 3266.9
+## - JobInvolvement           3   3233.0 3267.0
+## - Education                4   3235.3 3267.3
+## - YearsAtCompany           1   3229.9 3267.9
+## - EnvironmentSatisfaction  3   3234.7 3268.7
+## - JobSatisfaction          3   3242.2 3276.2
+## - YearsInCurrentRole       1   3240.1 3278.1
+```
 
 &lt;div class="figure"&gt;
-<div class="datatables html-widget html-fill-item" id="htmlwidget-ae816aa104d041bdf46b" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-ae816aa104d041bdf46b">{"x":{"filter":"none","vertical":false,"data":[["full.model","reduced.model","stepAIC.model","backwards.model"],[3215.5245502,3231.3213166,3232.9684563,3225.2033508],[3285.5864025,3285.5864025,3285.5864025,3285.5864025],[3275.5245502,3267.3213166,3266.9684563,3265.2033508]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Deviance.residual<\/th>\n      <th>Null.Deviance.Residual<\/th>\n      <th>AIC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":6,"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Deviance.residual","targets":1},{"name":"Null.Deviance.Residual","targets":2},{"name":"AIC","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-34a2a6973de7436d4cdf" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-34a2a6973de7436d4cdf">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","YearsInCurrentRole","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4","YearsAtCompany","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","JobInvolvement2","JobInvolvement3","JobInvolvement4","Education2","Education3","Education4","Education5"],[0.7151999999999999,-0.0339,-0.3651,0.0529,-0,0.0706,-0.2902,-0.1861,-0.3565,-0.0264,0.2243,-0.0294,-0.065,-0.3671,-0.4327,-0.5674,-0.0674,-0.2957,-0.3024,0.0993],[0.2423,0.1334,0.1225,0.1178,0,0.0184,0.1341,0.1194,0.1212,0.0123,0.0926,0.1466,0.1895,0.1878,0.1767,0.2166,0.1528,0.1384,0.1456,0.2549],[2.9518,-0.2542,-2.9805,0.4492,-1.6405,3.8303,-2.1633,-1.5584,-2.9414,-2.1545,2.4231,-0.2009,-0.3429,-1.9546,-2.4483,-2.6202,-0.441,-2.136,-2.0779,0.3898],[0.0032,0.7994,0.0029,0.6533,0.1009,0.0001,0.0305,0.1191,0.0033,0.0312,0.0154,0.8408,0.7317,0.0506,0.0144,0.008800000000000001,0.6592,0.0327,0.0377,0.6967]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":40,"scrollY":"200px","scrollCollapse":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+&lt;p class="caption"&gt;Summary of inferential statistics of the final model&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+
+
+
+
+---
+
+
+
+
+
+
+
+##    Goodness of fit
+
+
+&lt;div class="figure"&gt;
+<div class="datatables html-widget html-fill-item" id="htmlwidget-a6724b21b21b958b40d1" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a6724b21b21b958b40d1">{"x":{"filter":"none","vertical":false,"data":[["full.model","reduced.model","stepAIC.model","backwards.model"],[3215.5245502,3231.3213166,3232.9684563,3225.2033508],[3285.5864025,3285.5864025,3285.5864025,3285.5864025],[3275.5245502,3267.3213166,3266.9684563,3265.2033508]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Deviance.residual<\/th>\n      <th>Null.Deviance.Residual<\/th>\n      <th>AIC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":6,"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Deviance.residual","targets":1},{"name":"Null.Deviance.Residual","targets":2},{"name":"AIC","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 &lt;p class="caption"&gt;Comparison of global goodness-of-fit statistics&lt;/p&gt;
 &lt;/div&gt;
 
@@ -372,17 +433,8 @@ Full Model and Backwards Model Show Similar Results
 
 ---
 
-class: top, center
 
 ##    LikliehoodRatio Test:
-.left[
-
-P-Value is Insignificant
-
-No Significant Difference In Goodness-of-Fit Between Models
-
-Backwards Model Chosen For Less Variables
-]
 
 &lt;table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;"&gt;
 &lt;caption&gt;Likelihood Ratio Test Results&lt;/caption&gt;
@@ -420,42 +472,25 @@ Backwards Model Chosen For Less Variables
 
 
 ---
-class: top, center
 
-
-##    Odds Ratio Analysis:
-
-.left[
-
-Have X-Times the Odds of Being Approved Compared to Baseline
-
-Most Result in Less Odds
-
-]
-
-
+##    Odds Ratio
 
 &lt;div class="figure"&gt;
-<div class="datatables html-widget html-fill-item" id="htmlwidget-e55aab07faf615f1cf2a" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e55aab07faf615f1cf2a">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","YearsInCurrentRole","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4","YearsAtCompany","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","JobInvolvement2","JobInvolvement3","JobInvolvement4","Education2","Education3","Education4","Education5"],[0.7151999999999999,-0.0339,-0.3651,0.0529,-0,0.0706,-0.2902,-0.1861,-0.3565,-0.0264,0.2243,-0.0294,-0.065,-0.3671,-0.4327,-0.5674,-0.0674,-0.2957,-0.3024,0.0993],[0.2423,0.1334,0.1225,0.1178,0,0.0184,0.1341,0.1194,0.1212,0.0123,0.0926,0.1466,0.1895,0.1878,0.1767,0.2166,0.1528,0.1384,0.1456,0.2549],[2.9518,-0.2542,-2.9805,0.4492,-1.6405,3.8303,-2.1633,-1.5584,-2.9414,-2.1545,2.4231,-0.2009,-0.3429,-1.9546,-2.4483,-2.6202,-0.441,-2.136,-2.0779,0.3898],[0.0032,0.7994,0.0029,0.6533,0.1009,0.0001,0.0305,0.1191,0.0033,0.0312,0.0154,0.8408,0.7317,0.0506,0.0144,0.008800000000000001,0.6592,0.0327,0.0377,0.6967],[2.0446,0.9667,0.6941000000000001,1.0543,1,1.0731,0.7481,0.8302,0.7000999999999999,0.9739,1.2514,0.971,0.9371,0.6927,0.6488,0.5669999999999999,0.9348,0.744,0.739,1.1044]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n      <th>odds.ratio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":40,"scrollY":"200px","scrollX":"50px","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4},{"name":"odds.ratio","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-126689f5737f6b97783b" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-126689f5737f6b97783b">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","JobSatisfaction2","JobSatisfaction3","JobSatisfaction4","MonthlyIncome","YearsInCurrentRole","EnvironmentSatisfaction2","EnvironmentSatisfaction3","EnvironmentSatisfaction4","YearsAtCompany","StockOptionLevel1","StockOptionLevel2","StockOptionLevel3","JobInvolvement2","JobInvolvement3","JobInvolvement4","Education2","Education3","Education4","Education5"],[0.7151999999999999,-0.0339,-0.3651,0.0529,-0,0.0706,-0.2902,-0.1861,-0.3565,-0.0264,0.2243,-0.0294,-0.065,-0.3671,-0.4327,-0.5674,-0.0674,-0.2957,-0.3024,0.0993],[0.2423,0.1334,0.1225,0.1178,0,0.0184,0.1341,0.1194,0.1212,0.0123,0.0926,0.1466,0.1895,0.1878,0.1767,0.2166,0.1528,0.1384,0.1456,0.2549],[2.9518,-0.2542,-2.9805,0.4492,-1.6405,3.8303,-2.1633,-1.5584,-2.9414,-2.1545,2.4231,-0.2009,-0.3429,-1.9546,-2.4483,-2.6202,-0.441,-2.136,-2.0779,0.3898],[0.0032,0.7994,0.0029,0.6533,0.1009,0.0001,0.0305,0.1191,0.0033,0.0312,0.0154,0.8408,0.7317,0.0506,0.0144,0.008800000000000001,0.6592,0.0327,0.0377,0.6967],[2.0446,0.9667,0.6941000000000001,1.0543,1,1.0731,0.7481,0.8302,0.7000999999999999,0.9739,1.2514,0.971,0.9371,0.6927,0.6488,0.5669999999999999,0.9348,0.744,0.739,1.1044]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std. Error<\/th>\n      <th>z value<\/th>\n      <th>Pr(&gt;|z|)<\/th>\n      <th>odds.ratio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":40,"scrollY":"200px","scrollX":"50px","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std. Error","targets":2},{"name":"z value","targets":3},{"name":"Pr(>|z|)","targets":4},{"name":"odds.ratio","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,40,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 &lt;p class="caption"&gt;Summary Stats with Odds Ratios&lt;/p&gt;
 &lt;/div&gt;
 
 
 
 
----
-class: top, center
-
-##    Conclusion:
-.left[
-
-Primary Question Analysis
-
-Practical Significance
 
 
-]
+
+
+
+
+
 
 
 
